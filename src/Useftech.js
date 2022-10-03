@@ -3,27 +3,20 @@ import { useState } from "react";
 const useFtech = (url) => {
 
 
-  const [fetch,setFetch] = useState("");
+  const [data, extractDataFromApi] = useState("");
   
-  fetch(url, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      authorization: `Bearer ${sessionStorage.getItem("token")}`,
-    },
-  })
+  fetch(url)
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
-      localStorage.setItem("data", JSON.stringify(json.data.rows));
-
-      setFetch(json.data.rows);
+      // localStorage.setItem("data", JSON.stringify(json.data.rows));
+      extractDataFromApi(json.data.rows);
     })
     .catch((e) => {
       console.log(e);
     });
 
-    return [fetch,setFetch];
+    return [data,extractDataFromApi];
 };
 
 export default useFtech;
